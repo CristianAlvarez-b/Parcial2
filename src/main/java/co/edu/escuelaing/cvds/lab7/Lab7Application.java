@@ -1,10 +1,11 @@
 package co.edu.escuelaing.cvds.lab7;
 
-import co.edu.escuelaing.cvds.lab7.model.Configuration;
+import co.edu.escuelaing.cvds.lab7.model.Product;
+import co.edu.escuelaing.cvds.lab7.model.Category;
 import co.edu.escuelaing.cvds.lab7.model.User;
 import co.edu.escuelaing.cvds.lab7.model.UserRole;
 import co.edu.escuelaing.cvds.lab7.repository.UserRepository;
-import co.edu.escuelaing.cvds.lab7.service.ConfigurationService;
+import co.edu.escuelaing.cvds.lab7.service.ProductService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -18,16 +19,16 @@ import java.util.Arrays;
 @SpringBootApplication
 @Slf4j
 public class Lab7Application {
-	private final ConfigurationService configurationService;
+	private final ProductService productService;
 
 	private final UserRepository userRepository;
 
 	@Autowired
 	public Lab7Application(
-			ConfigurationService configurationService,
+			ProductService productService,
 			UserRepository userRepository
 	) {
-		this.configurationService = configurationService;
+		this.productService = productService;
 		this.userRepository = userRepository;
 	}
 
@@ -38,13 +39,11 @@ public class Lab7Application {
 	@Bean
 	public CommandLineRunner run() {
 		return (args) -> {
-			log.info("Adding Configurations....");
-			configurationService.addConfiguration(new Configuration("premio", "810000"));
-			configurationService.addConfiguration(new Configuration("descuento", "0.1"));
-			configurationService.addConfiguration(new Configuration("app-name", "Miraculous: Las Aventuras de Ladybug"));
+			log.info("Adding products....");
+			productService.addproduct(new Product(1,  "Papa pastusa", "Papa típica colombiana muy consumida en la región cundiboyacense",  Category.Food, 5, 2000, 100));
 
-			log.info("\nGetting all configurations....");
-			configurationService.getAllConfigurations().forEach(configuration -> System.out.println(configuration));
+			log.info("\nGetting all products....");
+			productService.getAllproducts().forEach(product -> System.out.println(product));
 
 			log.info("\nAdding admin@site.org user with Password: admin");
 			userRepository.save(new User("admin@site.org", "admin", Arrays.asList(UserRole.ADMINISTRADOR, UserRole.CLIENTE)));
